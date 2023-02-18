@@ -1,4 +1,4 @@
-from Classes import DbMongo
+from Classes.DbMongo import DbMongo
 
 class Estudiantes: 
       
@@ -21,7 +21,17 @@ class Estudiantes:
         print("Ingrese correo:")
         correo = input()    
         
-    def save(self, db):
-        collection = db [self.__collection]
+    def save(self):
+        client, db = DbMongo.getDB()
+        collection = db[self.__collection]
         collection.insert_one(self.__dict__)
-    
+        client.close()
+
+    def update(self):
+        myquery = {"Nombre": {"$regex" :"^C"}}
+        NValue = {"$set": {"Nombre": "Alejandra"}}
+        collection = ['Estudiantes']
+        collection.update_one(myquery, NValue)        
+
+        for x in collection.find():
+            print(x)

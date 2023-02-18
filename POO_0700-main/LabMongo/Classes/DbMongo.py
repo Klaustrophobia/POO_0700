@@ -1,5 +1,6 @@
 
 import pymongo
+import os
 
 class DbMongo:
     
@@ -7,9 +8,9 @@ class DbMongo:
     
     @staticmethod
     def getDB():
-        user = "KVJ"
-        password = "Rinnegan2)_("
-        cluster = "cluster.h25bvf7.mongodb.net"
+        user = os.environ['USER']
+        password = os.environ['PASSWDORD']
+        cluster = os.environ['CLUSTER']
         query_string = "retryWrites=true&w=majority"
 
         ## CONNECTION STRING
@@ -20,11 +21,14 @@ class DbMongo:
         , query_string
         )
 
-        client = pymongo.MongoClient(uri) 
-        db = client['UNAH']
+        client = pymongo.MongoClient(uri)
+        print(uri) 
+        db = client[os.environ['DB']]
         
         #SU FUNCION ES RETORNAR EN LA DB LO CUAL ENVIA AL APP.pY
-        return db
+        return client, db
+    
+    
     
     
     
